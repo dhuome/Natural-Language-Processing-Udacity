@@ -1,23 +1,41 @@
-var path = require('path')
-const express = require('express')
-const mockAPIResponse = require('./mockAPI.js')
+const path = require('path');
+const express = require('express');
+const mockAPIResponse = require('./mockAPI.js');
+const { z } = require("zod");
+require("dotenv").config();
+const axios = require('axios');
+const cors = require('cors')
+const endpoint = `https://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=auto&url=`;
+const app = express();
 
-const app = express()
+app.use(express.static('dist'));
+app.use(express.json());
+app.use(cors())
 
-app.use(express.static('dist'))
-
-console.log(__dirname)
+console.log(__dirname);
 
 app.get('/', function (req, res) {
-    // res.sendFile('dist/index.html')
-    res.sendFile(path.resolve('src/client/views/index.html'))
+  // res.sendFile('dist/index.html')
+  res.sendFile(path.resolve('src/client/views/index.html'));
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8080, function () {
-    console.log('Example app listening on port 8080!')
+app.listen(8000, function () {
+  console.log('Example app listening on port 8000!');
 })
 
+app.post('/', async function (req, res) {
+  const schema = z.object({
+    url: z.string().url()
+  });
+  const validate = schema.safeParse(req.body);
+  if (!validate.success) {
+    return res.status(400).json(validate.error.issues)
+  }
+  const { data: { confidence, irony, score_tag, subjectivity } } = await axios.get(`${endpoint}${validate.data.url}`);
+  res.status(200).json({ confidence, irony, score_tag, subjectivity });
+});
+
 app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
-})
+  res.send(mockAPIResponse);
+});
