@@ -1,13 +1,15 @@
-const path = require('path');
-const express = require('express');
 const mockAPIResponse = require('./mockAPI.js');
-const { z } = require("zod");
-require("dotenv").config();
+const express = require('express');
 const axios = require('axios');
-const cors = require('cors')
-const endpoint = `https://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=auto&url=`;
-const app = express();
+const { z } = require('zod');
+const path = require('path');
+const cors = require('cors');
 
+require('dotenv').config();
+
+const endpoint = `https://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=auto&url=`;
+
+const app = express();
 app.use(express.static('dist'));
 app.use(express.json());
 app.use(cors())
@@ -17,12 +19,12 @@ console.log(__dirname);
 app.get('/', function (req, res) {
   // res.sendFile('dist/index.html')
   res.sendFile(path.resolve('src/client/views/index.html'));
-})
+});
 
 // designates what port the app will listen to for incoming requests
 app.listen(8000, function () {
   console.log('Example app listening on port 8000!');
-})
+});
 
 app.post('/', async function (req, res) {
   const schema = z.object({

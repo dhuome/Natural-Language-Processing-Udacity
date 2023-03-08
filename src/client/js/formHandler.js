@@ -1,17 +1,19 @@
-import axios from "axios";
-import { display } from './displayData'
+import { display } from './displayData';
+import axios from 'axios';
 
-async function handleSubmit(event) {
+export async function handleSubmit(event) {
 	event.preventDefault();
 
 	let url = document.getElementById('url').value;
-	try {
-		const { data } = await axios.post('http://localhost:8000', { url });
-		display(data)
-	} catch (e) {
-		console.log(e)
-	}
+	const data = await getData(url);
+	display(data)
 }
 
-
-export { handleSubmit }
+export async function getData(url) {
+	try {
+		const { data } = await axios.post('http://localhost:8000', { url });
+		return data;
+	} catch (error) {
+		console.log(error)
+	}
+}
