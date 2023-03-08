@@ -15,6 +15,10 @@ The goal of this project is to become accustomed to:
 
 In addition to analyzing news articles and blogs via URLs, users in my project can also enter their own text to analyze.
 
+## Preview
+
+![Homepage screenshot](demo.png)
+
 ## Instructions
 ### Setting up the Project :computer:
 Clone or download the zip file locally after forking the project's Github repo. Navigate to the project directory to install all dependencies once you have the project locally.
@@ -44,7 +48,3 @@ npm run start
 ```
 
 For more information on the results of the text analysis, check out the [MeaningCloud API documentation](https://www.meaningcloud.com/developer/sentiment-analysis/doc/2.1/response).
-
-## Preview
-
-![A screenshot of the website](demo.png)
